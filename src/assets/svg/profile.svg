@@ -1,0 +1,12 @@
+<svg id="구성_요소_23_1" data-name="구성 요소 23 – 1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="타원_2" data-name="타원 2" transform="translate(7 3)" fill="none" stroke="#191919" stroke-width="1">
+    <circle cx="5" cy="5" r="5" stroke="none"/>
+    <circle cx="5" cy="5" r="4.5" fill="none"/>
+  </g>
+  <path id="패스_7" data-name="패스 7" d="M372-10.794l4-8" transform="translate(-366 30.794)" fill="none" stroke="#191919" stroke-width="1"/>
+  <path id="패스_8" data-name="패스 8" d="M385.412-11.23l-2-4-2-4" transform="translate(-367.412 31.23)" fill="none" stroke="#191919" stroke-width="1"/>
+  <g id="타원_3" data-name="타원 3" fill="none" stroke="#191919" stroke-width="1">
+    <circle cx="12" cy="12" r="12" stroke="none"/>
+    <circle cx="12" cy="12" r="11.5" fill="none"/>
+  </g>
+</svg>

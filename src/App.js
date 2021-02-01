@@ -1,7 +1,11 @@
+import Router from "Components/Router";
+import Footer from "Components/Footer";
+
 function App() {
   return (
     <div className="App">
-      <h1>Hello world from sopurple</h1>
+      <Router />
+      {/* <Footer /> */}
     </div>
   );
 }
