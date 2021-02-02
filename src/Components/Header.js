@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { authService, googleProvider } from "myFirebase";
 
 const Container = styled.div`
   width: 100%;
@@ -28,6 +29,10 @@ const IconContainer = styled.span`
   align-items: center;
 `;
 
+const signInGoogle = async () => {
+  await authService.signInWithRedirect(googleProvider);
+};
+
 const Header = () => {
   return (
     <Container>
@@ -35,7 +40,7 @@ const Header = () => {
         <img src={require("assets/svg/menu.svg").default} />
       </IconContainer>
       <HomeLogo to="/">SO PURPLE</HomeLogo>
-      <IconContainer>
+      <IconContainer onClick={signInGoogle}>
         <img src={require("assets/svg/profile.svg").default} />
       </IconContainer>
     </Container>
