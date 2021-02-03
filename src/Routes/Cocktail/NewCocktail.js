@@ -3,6 +3,7 @@ import { useState } from "react";
 
 const NewCocktail = () => {
   const [name, setName] = useState("");
+  const [selectedTags, setSelectedTags] = useState([]);
 
   const onCocktailSubmit = async (event) => {
     event.preventDefault();
