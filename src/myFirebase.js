@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/auth";
 import "firebase/storage";
+import "firebase/firestore";
 
 //configuration from env
 var firebaseConfig = {
@@ -22,3 +23,5 @@ export const storageService = firebase.storage();
 
 export const authService = firebase.auth();
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+export const firestoreService = firebase.firestore();
