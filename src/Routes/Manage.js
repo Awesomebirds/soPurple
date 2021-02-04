@@ -5,6 +5,8 @@ const Manage = () => {
   const [bannerFile, setBannerFile] = useState(null);
   const [tagValue, setTagValue] = useState("");
   const [tags, setTags] = useState([]);
+  const [spiritValue, setSpiritValue] = useState("");
+  const [spirits, setSpirits] = useState([]);
 
   //Banner
   const onBannerChange = (event) => {
@@ -34,7 +36,6 @@ const Manage = () => {
     event.preventDefault();
     firestoreService.collection("tag").add({
       name: tagValue,
-      cocktails: [],
     });
     setTagValue("");
   };
@@ -49,13 +50,47 @@ const Manage = () => {
     }
   };
 
+  //Base Spirit
+  const onSpiritChange = (event) => {
+    event.preventDefault();
+    setSpiritValue(event.target.value);
+  };
+
+  const onSpiritSubmit = (event) => {
+    event.preventDefault();
+    firestoreService.collection("spirit").add({
+      name: spiritValue,
+    });
+    setSpiritValue("");
+  };
+
+  const onSpiritDelete = (id) => {
+    const deleteSpirit = async () =>
+      await firestoreService.doc(`spirit/${id}`).delete();
+    if (window.confirm("스피릿을 정말 삭제하시겠습니까?? 진짜로?") === true) {
+      deleteSpirit();
+    } else {
+      return;
+    }
+  };
+
   useEffect(() => {
+    //tag snapshot
     firestoreService.collection("tag").onSnapshot((snapshot) => {
       const tagArray = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
       setTags(tagArray);
+    });
+
+    //spirit snapshot
+    firestoreService.collection("spirit").onSnapshot((snapshot) => {
+      const spiritArray = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setSpirits(spiritArray);
     });
   }, []);
 
@@ -83,6 +118,25 @@ const Manage = () => {
           <div>
             <span key={tag.id}>{tag.name}</span>
             <button key={tag.name} onClick={() => onTagDelete(tag.id)}>
+              ❌
+            </button>
+          </div>
+        ))}
+      <h2>스피릿 편집</h2>
+      <form onSubmit={onSpiritSubmit}>
+        <input
+          type="text"
+          placeholder="스피릿 이름"
+          onChange={onSpiritChange}
+          value={spiritValue}
+        />
+        <input type="submit" value="추가" />
+      </form>
+      {spirits &&
+        spirits.map((spirit) => (
+          <div>
+            <span key={spirit.id}>{spirit.name}</span>
+            <button key={spirit.name} onClick={() => onSpiritDelete(spirit.id)}>
               ❌
             </button>
           </div>
