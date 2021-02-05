@@ -1,6 +1,7 @@
 import { firestoreService, storageService } from "myFirebase";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 const Button = styled.button`
   background-color: ${(props) => (props.selected ? "#7626f3" : "#fff")};
@@ -8,7 +9,9 @@ const Button = styled.button`
 `;
 
 const NewCocktail = () => {
+  //states
   const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
   const [tags, setTags] = useState([]);
   const [spirits, setSpirits] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
@@ -17,24 +20,44 @@ const NewCocktail = () => {
   const [detail, setDetail] = useState("");
   const [imageFile, setImageFile] = useState(null);
 
+  //history
+  let history = useHistory();
+
   //최종 서브밋
   const onCocktailSubmit = async (event) => {
     event.preventDefault();
+
+    //콜렉션에 도큐먼트 등록
     await firestoreService.collection("cocktail").add({
       name,
+      price,
       tags: selectedTags,
       ingredients,
       detail,
     });
-    const storageRef = storageService.ref();
-    const ImageRef = storageRef.child(`cocktail/${name}`);
-    await ImageRef.putString(imageFile, "data_url");
+
+    //스토리지에 사진 등록
+    if (imageFile) {
+      //이미지 있음
+      const storageRef = storageService.ref();
+      const ImageRef = storageRef.child(`cocktail/${name}`);
+      await ImageRef.putString(imageFile, "data_url");
+    }
+
+    //서브밋 후 디테일창으로 푸시
+    history.push(`/cocktail/${name}`);
   };
 
   //칵테일 이름
   const onNameChange = (event) => {
     event.preventDefault();
     setName(event.target.value);
+  };
+
+  //칵테일 가격
+  const onPriceChange = (event) => {
+    event.preventDefault();
+    setPrice(event.target.value);
   };
 
   //태그 선택
@@ -61,7 +84,6 @@ const NewCocktail = () => {
     event.preventDefault();
     setIngredients([...ingredients, ingredientValue]);
     setIngredientValue("");
-    console.log(ingredients);
   };
 
   const onIngredientDelete = (ingredient) => {
@@ -122,6 +144,15 @@ const NewCocktail = () => {
         value={name}
         placeholder="이름"
       />
+      <div>
+        <h3>가격</h3>
+        <input
+          type="text"
+          onChange={onPriceChange}
+          value={price}
+          placeholder={"가격"}
+        />
+      </div>
       <div>
         <h3>베이스 선택</h3>
         {spirits &&

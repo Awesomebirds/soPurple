@@ -29,7 +29,7 @@ const Cocktail = () => {
       <h1>Cocktail</h1>
       <StyledButton to="/cocktail/new">new</StyledButton>
       {cocktails.map((cocktail) => (
-        <Item id={cocktail.id} name={cocktail.name} />
+        <Item cocktail={cocktail} />
       ))}
     </>
   );
