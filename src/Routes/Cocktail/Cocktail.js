@@ -1,4 +1,4 @@
-import { firestoreService } from "myFirebase";
+import { firestoreService, storageService } from "myFirebase";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -13,16 +13,27 @@ const StyledButton = styled(Link)`
 const Cocktail = () => {
   const [cocktails, setCocktails] = useState([]);
 
+  const DownloadImage = async (name) => {
+    const iamgeRef = storageService.ref(`cocktail/${name}`);
+    const imageUrl = await iamgeRef.getDownloadURL();
+    return imageUrl;
+  };
+
   useEffect(() => {
     firestoreService.collection("cocktail").onSnapshot((snapshot) => {
-      const cocktailArray = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const cocktailArray = snapshot.docs.map((doc) => {
+        const image = DownloadImage(doc.data().name);
+        console.log(image);
+
+        return {
+          id: doc.id,
+          ...doc.data(),
+          image,
+        };
+      });
       setCocktails(cocktailArray);
     });
   }, []);
-  console.log(cocktails);
 
   return (
     <>
