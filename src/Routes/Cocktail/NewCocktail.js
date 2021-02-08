@@ -20,6 +20,9 @@ const NewCocktail = () => {
   const [detail, setDetail] = useState("");
   const [imageFile, setImageFile] = useState(null);
 
+  //도수
+  const proofs = ["약함", "중간", "강함"];
+
   //history
   let history = useHistory();
 
@@ -152,6 +155,18 @@ const NewCocktail = () => {
           value={price}
           placeholder={"가격"}
         />
+      </div>
+      <div>
+        <h3>도수 선택</h3>
+        {proofs.map((proof) => (
+          <Button
+            selected={selectedTags.includes(proof)}
+            key={proof}
+            onClick={() => onTagSelect(proof)}
+          >
+            {proof}
+          </Button>
+        ))}
       </div>
       <div>
         <h3>베이스 선택</h3>

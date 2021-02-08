@@ -18,12 +18,14 @@ const Detail = () => {
     setData(data);
 
     //칵테일 사진 로드
-    const ImgRef = storageService.ref(`/cocktail/${cocktailName}`);
-    const ImgUrl = await ImgRef.getDownloadURL();
-    setImage(ImgUrl);
+    try {
+      const ImgRef = storageService.ref(`/cocktail/${cocktailName}`);
+      const ImgUrl = await ImgRef.getDownloadURL();
+      setImage(ImgUrl);
+    } catch {
+      console.error((error) => error);
+    }
   };
-
-  console.log(data);
 
   useEffect(() => {
     loadCocktail();

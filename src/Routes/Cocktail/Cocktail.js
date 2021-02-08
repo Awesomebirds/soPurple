@@ -13,22 +13,12 @@ const StyledButton = styled(Link)`
 const Cocktail = () => {
   const [cocktails, setCocktails] = useState([]);
 
-  const DownloadImage = async (name) => {
-    const iamgeRef = storageService.ref(`cocktail/${name}`);
-    const imageUrl = await iamgeRef.getDownloadURL();
-    return imageUrl;
-  };
-
   useEffect(() => {
     firestoreService.collection("cocktail").onSnapshot((snapshot) => {
       const cocktailArray = snapshot.docs.map((doc) => {
-        const image = DownloadImage(doc.data().name);
-        console.log(image);
-
         return {
           id: doc.id,
           ...doc.data(),
-          image,
         };
       });
       setCocktails(cocktailArray);
@@ -38,6 +28,7 @@ const Cocktail = () => {
   return (
     <>
       <h1>Cocktail</h1>
+      <div></div>
       <StyledButton to="/cocktail/new">new</StyledButton>
       {cocktails.map((cocktail) => (
         <Item cocktail={cocktail} />
