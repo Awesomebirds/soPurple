@@ -12,10 +12,10 @@ import Whisky from "Routes/Whisky";
 import Manage from "Routes/Manage";
 import Detail from "Routes/Detail";
 
-const myRouter = () => {
+const myRouter = ({ uid }) => {
   return (
     <Router>
-      <Header />
+      <Header uid={uid} />
       <Switch>
         <Route exact path="/">
           <Home />
@@ -27,7 +27,7 @@ const myRouter = () => {
           <NewCocktail />
         </Route>
         <Route path="/cocktail/:name">
-          <Detail />
+          <Detail uid={uid} />
         </Route>
         <Route exact path="/whisky">
           <Whisky />

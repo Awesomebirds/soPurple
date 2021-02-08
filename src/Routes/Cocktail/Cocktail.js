@@ -1,4 +1,4 @@
-import { firestoreService, storageService } from "myFirebase";
+import { firestoreService } from "myFirebase";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -14,6 +14,7 @@ const Cocktail = () => {
   const [cocktails, setCocktails] = useState([]);
 
   useEffect(() => {
+    //칵테일 로드
     firestoreService.collection("cocktail").onSnapshot((snapshot) => {
       const cocktailArray = snapshot.docs.map((doc) => {
         return {

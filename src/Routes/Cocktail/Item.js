@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { storageService } from "myFirebase";
+import { firestoreService, storageService } from "myFirebase";
 import { useEffect, useState } from "react";
 
 const Item = ({ cocktail }) => {
@@ -25,9 +25,9 @@ const Item = ({ cocktail }) => {
     <div>
       <Link to={`/cocktail/${name}`}>
         <div>
+          {image && <img src={image} width="100px" height="100px" />}
           <h3>{name}</h3>
           <h3>{price} 원</h3>
-          {image && <img src={image} width="100px" height="100px" />}
         </div>
       </Link>
     </div>

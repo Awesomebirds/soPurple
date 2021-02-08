@@ -4,16 +4,27 @@ import { useEffect, useState } from "react";
 // import Footer from "Components/Footer";
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(authService.currentUser.uid);
+  const [init, setInit] = useState(false);
+  const [uid, setUid] = useState("");
+
   useEffect(() => {
-    setCurrentUser(authService.currentUser.uid);
+    authService.onAuthStateChanged((user) => {
+      if (user) {
+        setUid(user.uid);
+      } else {
+        setUid(null);
+      }
+      setInit(true);
+    });
   }, []);
-  console.log(currentUser);
+
   return (
-    <div className="App">
-      <Router />
-      {/* <Footer /> */}
-    </div>
+    init && (
+      <div className="App">
+        <Router uid={uid} />
+        {/* <Footer /> */}
+      </div>
+    )
   );
 }
 

@@ -29,20 +29,27 @@ const IconContainer = styled.span`
   align-items: center;
 `;
 
-const signInGoogle = async () => {
-  await authService.signInWithRedirect(googleProvider);
-};
+const Header = ({ uid }) => {
+  const signInGoogle = async () => {
+    await authService.signInWithRedirect(googleProvider);
+  };
+  const signOut = async () => {
+    await authService.signOut();
+  };
 
-const Header = () => {
   return (
     <Container>
       <IconContainer>
         <img src={require("assets/svg/menu.svg").default} />
       </IconContainer>
       <HomeLogo to="/">SO PURPLE</HomeLogo>
-      <IconContainer onClick={signInGoogle}>
-        <img src={require("assets/svg/profile.svg").default} />
-      </IconContainer>
+      {uid ? (
+        <button onClick={signOut}>SignOut</button>
+      ) : (
+        <IconContainer onClick={signInGoogle}>
+          <img src={require("assets/svg/profile.svg").default} />
+        </IconContainer>
+      )}
     </Container>
   );
 };
