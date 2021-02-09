@@ -1,7 +1,8 @@
 import { firestoreService, storageService } from "myFirebase";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import qs from "qs"
 
 const Button = styled.button`
   background-color: ${(props) => (props.selected ? "#7626f3" : "#fff")};
@@ -10,6 +11,7 @@ const Button = styled.button`
 
 const NewCocktail = () => {
   //states
+  const [cocktailId, setCocktailId] = useState(null);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [tags, setTags] = useState([]);
@@ -25,22 +27,61 @@ const NewCocktail = () => {
 
   //history
   let history = useHistory();
+  const location = useLocation();
+
+  //칵테일 수정
+  const loadCocktail = async () => {
+    const {search} = location
+    if (search) {
+      //query에 id값이 있을 때(수정일 때)
+      const parsedSearch = qs.parse(search, {ignoreQueryPrefix: true});
+      const id = parsedSearch.id
+      setCocktailId(id)
+      const docRef = firestoreService.collection("cocktail").doc(id)
+      const getDoc = await docRef.get();
+      const data = getDoc.data();
+      setName(data.name)
+      setPrice(data.price)
+      setSelectedTags(data.tags)
+      setIngredients(data.ingredients)
+      setDetail(data.detail)
+
+      //사진 받아오기
+      const Ref = storageService.ref(`cocktail/${data.name}`)
+      setImageFile(await Ref.getDownloadURL())
+    }
+  }
+
 
   //최종 서브밋
   const onCocktailSubmit = async (event) => {
     event.preventDefault();
 
+    if (cocktailId) {
+      //수정일때 서브밋
+      const docRef = firestoreService.collection("cocktail").doc(cocktailId);
+      await docRef.update({
+        name,
+        price,
+        tags: selectedTags,
+        ingredients,
+        detail,
+      })
+
+    } else {
+      //아닐때 서브밋
+      await firestoreService.collection("cocktail").add({
+        name,
+        price,
+        tags: selectedTags,
+        ingredients,
+        detail,
+      });
+    }
     //콜렉션에 도큐먼트 등록
-    await firestoreService.collection("cocktail").add({
-      name,
-      price,
-      tags: selectedTags,
-      ingredients,
-      detail,
-    });
 
     //스토리지에 사진 등록
-    if (imageFile) {
+    if (document.querySelector(".imageInput").value) {
       //이미지 있음
       const storageRef = storageService.ref();
       const ImageRef = storageRef.child(`cocktail/${name}`);
@@ -136,6 +177,7 @@ const NewCocktail = () => {
   useEffect(() => {
     loadTags();
     loadSpirits();
+    loadCocktail();
   }, []);
 
   return (
@@ -217,7 +259,7 @@ const NewCocktail = () => {
         <input type="text" onChange={onDetailChange} value={detail} />
       </div>
       <div>
-        <input type="file" accept="image/*" onChange={onImageChange} />
+        <input className="imageInput" type="file" accept="image/*" onChange={onImageChange} />
         {imageFile && <img src={imageFile} width="50px" height="50px" />}
       </div>
       <div>

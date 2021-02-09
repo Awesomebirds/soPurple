@@ -1,9 +1,10 @@
 import { firestoreService, storageService } from "myFirebase";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 const Detail = ({ uid }) => {
   const location = useLocation();
+  const history = useHistory();
   const [data, setData] = useState(null);
   const [image, setImage] = useState("");
   const [isManager, setIsManager] = useState(false);
@@ -26,12 +27,18 @@ const Detail = ({ uid }) => {
       //칵테일 사진 삭제
       const imgRef = storageService.ref(`cocktail/${data.name}`);
       await imgRef.delete();
+
+      history.push("/cocktail")
     };
 
     window.confirm(
       `정말 ${data.name} 삭제하나요?? \n *되돌릴 수 없습니다!!!*`
     ) && deleteCocktail();
   };
+
+  const onEditClick = () => {
+    history.push(`new?id=${data.id}`)
+  }
 
   const cocktailName = location.pathname.split("/")[2];
   const loadCocktail = async () => {
@@ -41,7 +48,11 @@ const Detail = ({ uid }) => {
     const doc = await query.get();
     const docRef = doc.docs;
     const data = docRef[0].data();
-    setData(data);
+    const dataWithId = {
+      id: docRef[0].id,
+      ...data
+    }
+    setData(dataWithId);
 
     //칵테일 사진 로드
     try {
@@ -74,7 +85,10 @@ const Detail = ({ uid }) => {
         {data.tags && data.tags.map((tag) => <span key={tag}>#{tag}</span>)}
       </div>
       <h2>{data.detail}</h2>
-      {isManager && <button onClick={onDeleteClick}>❌</button>}
+      {isManager && <div>
+        <button onClick={onDeleteClick}>❌</button>
+        <button onClick={onEditClick}>🖋</button> 
+        </div>}
     </>
   ) : (
     ""
