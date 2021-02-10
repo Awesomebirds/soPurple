@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { firestoreService, storageService } from "myFirebase";
+import { storageService } from "myFirebase";
 import { useEffect, useState } from "react";
 
 const Item = ({ cocktail }) => {
