@@ -1,11 +1,37 @@
 import Router from "Components/Router";
-import { authService } from "myFirebase";
+import { authService, firestoreService } from "myFirebase";
 import { useEffect, useState } from "react";
 // import Footer from "Components/Footer";
 
 function App() {
   const [init, setInit] = useState(false);
   const [uid, setUid] = useState("");
+  const [cocktails, setCocktails] = useState([]);
+  const [spirits, setSpirits] = useState([]);
+  const [tags, setTags] = useState([]);
+
+  //스피릿, 태그 로드
+  const proofs = ["약함", "중간", "강함"];
+
+  const loadTags = async () => {
+    const tagsRef = firestoreService.collection("tag");
+    const docs = (await tagsRef.get()).docs;
+    const docsArray = docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setTags(docsArray);
+  };
+
+  const loadSpirits = async () => {
+    const spiritsRef = firestoreService.collection("spirit");
+    const docs = (await spiritsRef.get()).docs;
+    const docsArray = docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setSpirits(docsArray);
+  };
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
@@ -16,12 +42,34 @@ function App() {
       }
       setInit(true);
     });
+
+    //칵테일 로드
+    firestoreService.collection("cocktail").onSnapshot((snapshot) => {
+      const cocktailArray = snapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+      setCocktails(cocktailArray);
+    });
+    //스피릿 태그 로드
+    loadSpirits();
+    loadTags();
   }, []);
 
   return (
-    init && (
+    init &&
+    tags &&
+    spirits && (
       <div className="App">
-        <Router uid={uid} />
+        <Router
+          uid={uid}
+          cocktails={cocktails}
+          spirits={spirits}
+          tags={tags}
+          proofs={proofs}
+        />
         {/* <Footer /> */}
       </div>
     )

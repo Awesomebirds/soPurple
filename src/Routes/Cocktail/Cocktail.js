@@ -1,5 +1,4 @@
-import { firestoreService } from "myFirebase";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Item from "./Item";
@@ -15,34 +14,8 @@ const Button = styled.button`
   color: ${(props) => (props.selected ? "#fff" : "#000")};
 `;
 
-const Cocktail = () => {
-  const [cocktails, setCocktails] = useState([]);
-  const [spirits, setSpirits] = useState([]);
-  const [tags, setTags] = useState([]);
+const Cocktail = ({ cocktails, spirits, tags, proofs }) => {
   const [selectedTags, setSelectedTags] = useState([]);
-
-  //스피릿, 태그 로드
-  const proofs = ["약함", "중간", "강함"];
-
-  const loadTags = async () => {
-    const tagsRef = firestoreService.collection("tag");
-    const docs = (await tagsRef.get()).docs;
-    const docsArray = docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setTags(docsArray);
-  };
-
-  const loadSpirits = async () => {
-    const spiritsRef = firestoreService.collection("spirit");
-    const docs = (await spiritsRef.get()).docs;
-    const docsArray = docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setSpirits(docsArray);
-  };
 
   //태그 선택
   const onTagSelect = (tagName) => {
@@ -68,22 +41,6 @@ const Cocktail = () => {
     const check = selectedTags.every((element) => obj[element] !== undefined);
     return check;
   };
-
-  useEffect(() => {
-    //칵테일 로드
-    firestoreService.collection("cocktail").onSnapshot((snapshot) => {
-      const cocktailArray = snapshot.docs.map((doc) => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-        };
-      });
-      setCocktails(cocktailArray);
-    });
-    //스피릿 태그 로드
-    loadSpirits();
-    loadTags();
-  }, []);
 
   return (
     <>

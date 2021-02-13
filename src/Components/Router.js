@@ -12,19 +12,29 @@ import Whisky from "Routes/Whisky";
 import Manage from "Routes/Manage";
 import Detail from "Routes/Detail";
 
-const myRouter = ({ uid }) => {
+const myRouter = ({ uid, cocktails, spirits, tags, proofs }) => {
   return (
     <Router>
       <Header uid={uid} />
       <Switch>
         <Route exact path="/">
-          <Home />
+          <Home cocktails={cocktails} tags={tags} />
         </Route>
         <Route exact path="/cocktail">
-          <Cocktail />
+          <Cocktail
+            cocktails={cocktails}
+            spirits={spirits}
+            tags={tags}
+            proofs={proofs}
+          />
         </Route>
         <Route exact path="/cocktail/new">
-          <NewCocktail />
+          <NewCocktail
+            cocktails={cocktails}
+            spirits={spirits}
+            tags={tags}
+            proofs={proofs}
+          />
         </Route>
         <Route path="/cocktail/:name">
           <Detail uid={uid} />
