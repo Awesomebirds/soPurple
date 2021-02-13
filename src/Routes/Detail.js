@@ -2,22 +2,12 @@ import { firestoreService, storageService } from "myFirebase";
 import { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
-const Detail = ({ uid }) => {
+const Detail = ({ isManager }) => {
   const location = useLocation();
   const history = useHistory();
   const [data, setData] = useState(null);
   const [image, setImage] = useState("");
-  const [isManager, setIsManager] = useState(false);
 
-  const checkManager = () => {
-    if (uid) {
-      if (uid === "lST7WLz2WDSCdctfFrZ2gMta9m93") {
-        setIsManager(true);
-      } else {
-        setIsManager(false);
-      }
-    }
-  };
   const onDeleteClick = () => {
     const deleteCocktail = async () => {
       //칵테일 데이터삭제
@@ -28,7 +18,7 @@ const Detail = ({ uid }) => {
       const imgRef = storageService.ref(`cocktail/${data.name}`);
       await imgRef.delete();
 
-      history.push("/cocktail")
+      history.push("/cocktail");
     };
 
     window.confirm(
@@ -37,8 +27,8 @@ const Detail = ({ uid }) => {
   };
 
   const onEditClick = () => {
-    history.push(`new?id=${data.id}`)
-  }
+    history.push(`new?id=${data.id}`);
+  };
 
   const cocktailName = location.pathname.split("/")[2];
   const loadCocktail = async () => {
@@ -50,8 +40,8 @@ const Detail = ({ uid }) => {
     const data = docRef[0].data();
     const dataWithId = {
       id: docRef[0].id,
-      ...data
-    }
+      ...data,
+    };
     setData(dataWithId);
 
     //칵테일 사진 로드
@@ -67,8 +57,6 @@ const Detail = ({ uid }) => {
   useEffect(() => {
     //칵테일 불러오기
     loadCocktail();
-    //관리자 확인
-    checkManager();
   }, []);
 
   return data ? (
@@ -85,10 +73,12 @@ const Detail = ({ uid }) => {
         {data.tags && data.tags.map((tag) => <span key={tag}>#{tag}</span>)}
       </div>
       <h2>{data.detail}</h2>
-      {isManager && <div>
-        <button onClick={onDeleteClick}>❌</button>
-        <button onClick={onEditClick}>🖋</button> 
-        </div>}
+      {isManager && (
+        <div>
+          <button onClick={onDeleteClick}>❌</button>
+          <button onClick={onEditClick}>🖋</button>
+        </div>
+      )}
     </>
   ) : (
     ""

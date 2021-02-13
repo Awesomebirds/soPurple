@@ -1,6 +1,47 @@
 import { Link } from "react-router-dom";
 import { storageService } from "myFirebase";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
+
+//styles
+const ItemContainer = styled.span`
+  width: 100%;
+`;
+
+const Img = styled.div`
+  width: 100%;
+  background-color: #f2f2f2;
+  &::after {
+    content: "";
+    display: block;
+    padding-bottom: 120%;
+  }
+  background-image: url(${(props) => props.image});
+  background-size: cover;
+  background-position: center;
+  border-radius: 16px;
+`;
+
+const Detail = styled.span`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Name = styled.div`
+  margin-top: 10px;
+  letter-spacing: -1px;
+  font-size: 16px;
+  font-weight: 600;
+`;
+
+const Price = styled.div`
+  margin-top: 2px;
+  color: #767676;
+  font-size: 14px;
+  letter-spacing: -1px;
+`;
 
 const Item = ({ cocktail }) => {
   const { id, name, price } = cocktail;
@@ -22,15 +63,15 @@ const Item = ({ cocktail }) => {
   }, []);
 
   return (
-    <div>
+    <ItemContainer>
       <Link to={`/cocktail/${name}`}>
-        <div>
-          {image && <img src={image} width="100px" height="100px" />}
-          <h3>{name}</h3>
-          <h3>{price} 원</h3>
-        </div>
+        <Detail>
+          {image && <Img image={image} />}
+          <Name>{name}</Name>
+          <Price>{price} 원</Price>
+        </Detail>
       </Link>
-    </div>
+    </ItemContainer>
   );
 };
 

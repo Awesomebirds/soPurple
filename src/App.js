@@ -6,12 +6,21 @@ import { useEffect, useState } from "react";
 function App() {
   const [init, setInit] = useState(false);
   const [uid, setUid] = useState("");
+  const [isManager, setIsManager] = useState(false);
   const [cocktails, setCocktails] = useState([]);
   const [spirits, setSpirits] = useState([]);
   const [tags, setTags] = useState([]);
 
   //스피릿, 태그 로드
   const proofs = ["약함", "중간", "강함"];
+
+  const checkManager = () => {
+    if (uid) {
+      if (uid === "lST7WLz2WDSCdctfFrZ2gMta9m93") {
+        setIsManager(true);
+      }
+    }
+  };
 
   const loadTags = async () => {
     const tagsRef = firestoreService.collection("tag");
@@ -37,6 +46,7 @@ function App() {
     authService.onAuthStateChanged((user) => {
       if (user) {
         setUid(user.uid);
+        checkManager();
       } else {
         setUid(null);
       }
@@ -56,7 +66,7 @@ function App() {
     //스피릿 태그 로드
     loadSpirits();
     loadTags();
-  }, []);
+  }, [uid]);
 
   return (
     init &&
@@ -69,6 +79,7 @@ function App() {
           spirits={spirits}
           tags={tags}
           proofs={proofs}
+          isManager={isManager}
         />
         {/* <Footer /> */}
       </div>

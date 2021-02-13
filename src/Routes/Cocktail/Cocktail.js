@@ -1,21 +1,69 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Item from "./Item";
 
-const StyledButton = styled(Link)`
-  border: solid 1px gray;
-  color: white;
-  background-color: gray;
+//Styles
+const CocktailContaier = styled.div`
+  margin: 20px 16px;
 `;
 
-const Button = styled.button`
+//태그
+const TagContainer = styled.div``;
+
+const SelectContainer = styled.div`
+  margin-bottom: 16px;
+`;
+
+const TagTitleContainer = styled.div`
+  margin-bottom: 20px;
+`;
+
+const TagTitle = styled.span`
+  font-size: 15px;
+  border-bottom: 1px solid #d3d3d3;
+  padding: 4px 0;
+`;
+
+const Button = styled.span`
+  padding: 4px 10px;
+  margin-right: 6px;
+  border: 1px solid #d3d3d3;
+  border-radius: 4px;
   background-color: ${(props) => (props.selected ? "#7626f3" : "#fff")};
   color: ${(props) => (props.selected ? "#fff" : "#000")};
+  font-size: 14px;
+  font-weight: 400;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
-const Cocktail = ({ cocktails, spirits, tags, proofs }) => {
+//칵테일 카드들
+const ItemContainer = styled.div`
+  margin-top: 20px;
+  width: 100%;
+  display: grid;
+  grid-gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+`;
+
+//관리자용 칵테일 새로 만들기
+const CreateContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const CreateNew = styled(Link)`
+  padding: 4px;
+  border: solid 1px #d3d3d3;
+  border-radius: 4px;
+  font-weight: 600;
+`;
+
+const Cocktail = ({ isManager, cocktails, spirits, tags, proofs }) => {
   const [selectedTags, setSelectedTags] = useState([]);
+  const [manager, setManager] = useState(false);
 
   //태그 선택
   const onTagSelect = (tagName) => {
@@ -42,12 +90,18 @@ const Cocktail = ({ cocktails, spirits, tags, proofs }) => {
     return check;
   };
 
+  useEffect(() => {
+    isManager && setManager(true);
+    console.log(manager);
+  }, [isManager]);
+
   return (
-    <>
-      <h1>Cocktail</h1>
-      <div>
-        <div>
-          <h3>도수 선택</h3>
+    <CocktailContaier>
+      <TagContainer>
+        <SelectContainer>
+          <TagTitleContainer>
+            <TagTitle>도수 선택</TagTitle>
+          </TagTitleContainer>
           {proofs.map((proof) => (
             <Button
               selected={selectedTags.includes(proof)}
@@ -57,9 +111,11 @@ const Cocktail = ({ cocktails, spirits, tags, proofs }) => {
               {proof}
             </Button>
           ))}
-        </div>
-        <div>
-          <h3>베이스 선택</h3>
+        </SelectContainer>
+        <SelectContainer>
+          <TagTitleContainer>
+            <TagTitle>베이스 선택</TagTitle>
+          </TagTitleContainer>
           {spirits &&
             spirits.map((spirit) => (
               <Button
@@ -70,9 +126,11 @@ const Cocktail = ({ cocktails, spirits, tags, proofs }) => {
                 {spirit.name}
               </Button>
             ))}
-        </div>
-        <div>
-          <h3>태그 선택</h3>
+        </SelectContainer>
+        <SelectContainer>
+          <TagTitleContainer>
+            <TagTitle>태그 선택</TagTitle>
+          </TagTitleContainer>
           {tags &&
             tags.map((tag) => (
               <Button
@@ -83,15 +141,22 @@ const Cocktail = ({ cocktails, spirits, tags, proofs }) => {
                 {tag.name}
               </Button>
             ))}
-        </div>
-        <div></div>
-      </div>
-      <StyledButton to="/cocktail/new">new</StyledButton>
-      {cocktails.map(
-        (cocktail) =>
-          isFiltered(cocktail) && <Item key={cocktail.id} cocktail={cocktail} />
+        </SelectContainer>
+      </TagContainer>
+      {manager && (
+        <CreateContainer>
+          <CreateNew to="/cocktail/new">칵테일 추가</CreateNew>
+        </CreateContainer>
       )}
-    </>
+      <ItemContainer>
+        {cocktails.map(
+          (cocktail) =>
+            isFiltered(cocktail) && (
+              <Item key={cocktail.id} cocktail={cocktail} />
+            )
+        )}
+      </ItemContainer>
+    </CocktailContaier>
   );
 };
 

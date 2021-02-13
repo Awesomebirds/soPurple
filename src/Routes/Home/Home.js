@@ -4,8 +4,38 @@ import Item from "Routes/Cocktail/Item";
 import styled from "styled-components";
 import Banner from "./Banner";
 
-const Container = styled.div``;
+//Styles
+const Container = styled.div`
+  margin: 0 16px;
+`;
 
+//태그
+const TagContainer = styled.div`
+  margin-top: 40px;
+  margin-bottom: 20px;
+`;
+
+const TagButton = styled.span`
+  margin: 5px;
+  padding-bottom: 2px;
+  padding-left: 1px;
+  padding-right: 1px;
+  border-bottom: ${(props) => (props.isSelected ? "2px solid" : "none")};
+  font-weight: ${(props) => (props.isSelected ? "700" : "500")};
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+//칵테일
+const CocktailContainer = styled.div`
+  display: flex;
+  > span {
+    margin: 0 6px;
+  }
+`;
+
+//링크 버튼
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -27,11 +57,6 @@ const StyledButton = styled(Link)`
   letter-spacing: -1px;
 `;
 
-const TagButton = styled.button`
-  padding: 5px;
-  font-weight: ${(props) => (props.isSelected ? "700" : "500")};
-`;
-
 const Home = ({ cocktails, tags }) => {
   const [seletedTag, setSelectedTag] = useState("");
 
@@ -43,37 +68,39 @@ const Home = ({ cocktails, tags }) => {
   }, [tags]);
 
   return (
-    <Container>
+    <>
       <Banner />
-      <div>
+      <Container>
         <div>
-          {tags &&
-            tags.map((tag) => (
-              <TagButton
-                onClick={() => onTagClick(tag.name)}
-                isSelected={tag.name === seletedTag}
-              >
-                {tag.name}
-              </TagButton>
-            ))}
+          <TagContainer>
+            {tags &&
+              tags.map((tag) => (
+                <TagButton
+                  onClick={() => onTagClick(tag.name)}
+                  isSelected={tag.name === seletedTag}
+                >
+                  #{tag.name}
+                </TagButton>
+              ))}
+          </TagContainer>
+          <CocktailContainer>
+            {cocktails &&
+              cocktails.map(
+                (cocktail) =>
+                  cocktail.tags.includes(seletedTag) && (
+                    <Item key={cocktail.id} cocktail={cocktail} />
+                  )
+              )}
+          </CocktailContainer>
         </div>
-        <div>
-          {cocktails &&
-            cocktails.map(
-              (cocktail) =>
-                cocktail.tags.includes(seletedTag) && (
-                  <Item key={cocktail.id} cocktail={cocktail} />
-                )
-            )}
-        </div>
-      </div>
-      <ButtonContainer>
-        <StyledButton to="/cocktail">칵테일 전체보기 {`>`}</StyledButton>
-      </ButtonContainer>
-      <ButtonContainer>
-        <StyledButton to="/whisky">위스키 전체보기 {`>`}</StyledButton>
-      </ButtonContainer>
-    </Container>
+        <ButtonContainer>
+          <StyledButton to="/cocktail">칵테일 전체보기 {`>`}</StyledButton>
+        </ButtonContainer>
+        <ButtonContainer>
+          <StyledButton to="/whisky">위스키 전체보기 {`>`}</StyledButton>
+        </ButtonContainer>
+      </Container>
+    </>
   );
 };
 
