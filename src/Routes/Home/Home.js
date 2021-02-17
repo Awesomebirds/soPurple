@@ -30,6 +30,8 @@ const TagButton = styled.span`
 //칵테일
 const CocktailContainer = styled.div`
   display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
   > span {
     margin: 0 6px;
   }

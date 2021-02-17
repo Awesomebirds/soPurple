@@ -6,6 +6,7 @@ import styled from "styled-components";
 //styles
 const ItemContainer = styled.span`
   width: 100%;
+  min-width: 150px;
 `;
 
 const Img = styled.div`

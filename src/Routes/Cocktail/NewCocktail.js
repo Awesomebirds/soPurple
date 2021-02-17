@@ -20,7 +20,6 @@ const NewCocktail = ({ cocktails, tags, spirits, proofs }) => {
   const [detail, setDetail] = useState("");
   const [imageFile, setImageFile] = useState(null);
 
-  console.log(cocktails);
   //history
   let history = useHistory();
   const location = useLocation();
