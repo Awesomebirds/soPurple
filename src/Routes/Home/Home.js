@@ -13,6 +13,9 @@ const Container = styled.div`
 const TagContainer = styled.div`
   margin-top: 40px;
   margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: auto;
 `;
 
 const TagButton = styled.span`
@@ -73,34 +76,35 @@ const Home = ({ cocktails, tags }) => {
     <>
       <Banner />
       <Container>
-        <div>
-          <TagContainer>
-            {tags &&
-              tags.map((tag) => (
-                <TagButton
-                  onClick={() => onTagClick(tag.name)}
-                  isSelected={tag.name === seletedTag}
-                >
-                  #{tag.name}
-                </TagButton>
-              ))}
-          </TagContainer>
-          <CocktailContainer>
-            {cocktails &&
-              cocktails.map(
-                (cocktail) =>
-                  cocktail.tags.includes(seletedTag) && (
-                    <Item key={cocktail.id} cocktail={cocktail} />
-                  )
-              )}
-          </CocktailContainer>
-        </div>
+        <TagContainer>
+          {tags &&
+            tags.map(
+              (tag, index) =>
+                index < 3 && (
+                  <TagButton
+                    onClick={() => onTagClick(tag.name)}
+                    isSelected={tag.name === seletedTag}
+                  >
+                    #{tag.name}
+                  </TagButton>
+                )
+            )}
+        </TagContainer>
+        <CocktailContainer>
+          {cocktails &&
+            cocktails.map(
+              (cocktail) =>
+                cocktail.tags.includes(seletedTag) && (
+                  <Item key={cocktail.id} cocktail={cocktail} />
+                )
+            )}
+        </CocktailContainer>
         <ButtonContainer>
           <StyledButton to="/cocktail">칵테일 전체보기 {`>`}</StyledButton>
         </ButtonContainer>
-        <ButtonContainer>
+        {/* <ButtonContainer>
           <StyledButton to="/whisky">위스키 전체보기 {`>`}</StyledButton>
-        </ButtonContainer>
+        </ButtonContainer> */}
       </Container>
     </>
   );

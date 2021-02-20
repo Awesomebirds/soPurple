@@ -125,6 +125,10 @@ const NewCocktail = ({ cocktails, tags, spirits, proofs }) => {
     setIngredientValue(event.target.value);
   };
 
+  const onIngredientPress = (event) => {
+    console.log(event);
+  };
+
   const onIngredientSubmit = (event) => {
     event.preventDefault();
     setIngredients([...ingredients, ingredientValue]);
@@ -218,6 +222,7 @@ const NewCocktail = ({ cocktails, tags, spirits, proofs }) => {
         <h3>재료 추가</h3>
         <input
           type="text"
+          onKeyPress={onIngredientPress}
           onChange={onIngredientChange}
           value={ingredientValue}
         />

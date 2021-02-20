@@ -1,7 +1,7 @@
 import Router from "Components/Router";
 import { authService, firestoreService } from "myFirebase";
 import { useEffect, useState } from "react";
-// import Footer from "Components/Footer";
+import Footer from "Components/Footer";
 
 function App() {
   const [init, setInit] = useState(false);
@@ -12,7 +12,7 @@ function App() {
   const [tags, setTags] = useState([]);
 
   //스피릿, 태그 로드
-  const proofs = ["약함", "중간", "강함"];
+  const proofs = ["라이트", "미들", "헤비"];
 
   const checkManager = () => {
     if (uid) {
@@ -81,7 +81,7 @@ function App() {
           proofs={proofs}
           isManager={isManager}
         />
-        {/* <Footer /> */}
+        <Footer />
       </div>
     )
   );
