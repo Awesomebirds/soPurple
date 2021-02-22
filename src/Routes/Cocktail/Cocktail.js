@@ -102,7 +102,6 @@ const Cocktail = ({ isManager, cocktails, spirits, tags, proofs }) => {
 
   useEffect(() => {
     isManager && setManager(true);
-    console.log(manager);
   }, [isManager]);
 
   return (

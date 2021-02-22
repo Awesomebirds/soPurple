@@ -4,9 +4,28 @@ import styled from "styled-components";
 import { useHistory, useLocation } from "react-router-dom";
 import qs from "qs";
 
+const StyledForm = styled.div`
+  margin: 16px;
+`;
+
+const Title = styled.h3`
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 17px;
+`;
+
 const Button = styled.button`
   background-color: ${(props) => (props.selected ? "#7626f3" : "#fff")};
   color: ${(props) => (props.selected ? "#fff" : "#000")};
+`;
+
+const DeatilInput = styled.textarea`
+  width: 100%;
+  min-height: 100px;
+  border: 1px solid #d3d3d3;
+  border-radius: 7px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 
 const NewCocktail = ({ cocktails, tags, spirits, proofs }) => {
@@ -125,10 +144,6 @@ const NewCocktail = ({ cocktails, tags, spirits, proofs }) => {
     setIngredientValue(event.target.value);
   };
 
-  const onIngredientPress = (event) => {
-    console.log(event);
-  };
-
   const onIngredientSubmit = (event) => {
     event.preventDefault();
     setIngredients([...ingredients, ingredientValue]);
@@ -163,8 +178,8 @@ const NewCocktail = ({ cocktails, tags, spirits, proofs }) => {
   }, []);
 
   return (
-    <form onSubmit={(event) => event.preventDefault()}>
-      <h3>칵테일 이름</h3>
+    <StyledForm>
+      <Title>칵테일 이름</Title>
       <input
         type="text"
         onChange={onNameChange}
@@ -172,7 +187,7 @@ const NewCocktail = ({ cocktails, tags, spirits, proofs }) => {
         placeholder="이름"
       />
       <div>
-        <h3>가격</h3>
+        <Title>가격</Title>
         <input
           type="text"
           onChange={onPriceChange}
@@ -181,7 +196,7 @@ const NewCocktail = ({ cocktails, tags, spirits, proofs }) => {
         />
       </div>
       <div>
-        <h3>도수 선택</h3>
+        <Title>도수 선택</Title>
         {proofs.map((proof) => (
           <Button
             selected={selectedTags.includes(proof)}
@@ -193,7 +208,7 @@ const NewCocktail = ({ cocktails, tags, spirits, proofs }) => {
         ))}
       </div>
       <div>
-        <h3>베이스 선택</h3>
+        <Title>베이스 선택</Title>
         {spirits &&
           spirits.map((spirit) => (
             <Button
@@ -206,7 +221,7 @@ const NewCocktail = ({ cocktails, tags, spirits, proofs }) => {
           ))}
       </div>
       <div>
-        <h3>태그 선택</h3>
+        <Title>태그 선택</Title>
         {tags &&
           tags.map((tag) => (
             <Button
@@ -219,16 +234,14 @@ const NewCocktail = ({ cocktails, tags, spirits, proofs }) => {
           ))}
       </div>
       <div>
-        <h3>재료 추가</h3>
+        <Title>재료 추가</Title>
         <input
           type="text"
-          onKeyPress={onIngredientPress}
           onChange={onIngredientChange}
           value={ingredientValue}
         />
         <button onClick={onIngredientSubmit}>추가</button>
         <div>
-          <h4>재료</h4>
           {ingredients.map((ingredient) => (
             <div>
               <span key={ingredient}>{ingredient}</span>
@@ -238,8 +251,8 @@ const NewCocktail = ({ cocktails, tags, spirits, proofs }) => {
         </div>
       </div>
       <div>
-        <h3>설명</h3>
-        <input type="text" onChange={onDetailChange} value={detail} />
+        <Title>설명</Title>
+        <DeatilInput onChange={onDetailChange} value={detail} />
       </div>
       <div>
         <input
@@ -253,7 +266,7 @@ const NewCocktail = ({ cocktails, tags, spirits, proofs }) => {
       <div>
         <button onClick={onCocktailSubmit}>등록</button>
       </div>
-    </form>
+    </StyledForm>
   );
 };
 

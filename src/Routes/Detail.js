@@ -37,7 +37,7 @@ const Title = styled.h1`
   font-size: 23px;
   font-weight: 600;
   letter-spacing: -1px;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
 `;
 
 //재료
@@ -67,7 +67,9 @@ const Tag = styled.span`
 
 //설명
 const Text = styled.p`
-  line-height: 1.7;
+  width: 100%;
+  line-height: 2;
+  white-space: pre-line;
 `;
 
 //링크 버튼
