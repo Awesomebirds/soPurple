@@ -1,1 +1,1 @@
-# 쏘퍼플 웹사이트
+# https://awesomebirds.github.io/soPurple/
