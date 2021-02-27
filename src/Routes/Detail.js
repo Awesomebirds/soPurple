@@ -68,7 +68,7 @@ const Tag = styled.span`
 //설명
 const Text = styled.p`
   width: 100%;
-  line-height: 2;
+  line-height: 1.5;
   white-space: pre-line;
 `;
 

@@ -16,7 +16,7 @@ const SelectContainer = styled.div`
 `;
 
 const TagTitleContainer = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 `;
 
 const TagTitle = styled.span`

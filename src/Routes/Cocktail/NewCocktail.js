@@ -52,24 +52,20 @@ const NewCocktail = ({ cocktails, tags, spirits, proofs }) => {
       const id = parsedSearch.id;
       setCocktailId(id);
 
-      const theCocktail = cocktails.map((cocktail) => {
-        if (cocktail.id === id) {
-          return cocktail;
-        } else {
-          return;
-        }
-      });
+      const theCocktail = cocktails.filter((cocktail) => cocktail.id === id);
       if (theCocktail && theCocktail.length > 0) {
         const data = theCocktail[0];
-        setName(data.name);
-        setPrice(data.price);
-        setSelectedTags(data.tags);
-        setIngredients(data.ingredients);
-        setDetail(data.detail);
+        if (data) {
+          setName(data.name);
+          setPrice(data.price);
+          setSelectedTags(data.tags);
+          setIngredients(data.ingredients);
+          setDetail(data.detail);
 
-        //사진 받아오기
-        const Ref = storageService.ref(`cocktail/${data.name}`);
-        setImageFile(await Ref.getDownloadURL());
+          //사진 받아오기
+          const Ref = storageService.ref(`cocktail/${data.name}`);
+          setImageFile(await Ref.getDownloadURL());
+        }
       }
     }
   };
@@ -175,7 +171,7 @@ const NewCocktail = ({ cocktails, tags, spirits, proofs }) => {
 
   useEffect(() => {
     loadCocktail();
-  }, []);
+  }, [cocktails]);
 
   return (
     <StyledForm>
