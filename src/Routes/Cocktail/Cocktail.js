@@ -16,14 +16,13 @@ const SelectContainer = styled.div`
 `;
 
 const TagTitleContainer = styled.div`
-  margin-bottom: 15px;
+  margin-bottom: 8px;
 `;
 
 const TagTitle = styled.span`
   font-size: 15px;
   font-weight: 600;
   letter-spacing: -1px;
-  border-bottom: 1px solid #d3d3d3;
   padding: 4px 0;
 `;
 
@@ -40,7 +39,7 @@ const Button = styled.div`
   border: 1px solid #d3d3d3;
   border-radius: 4px;
   background-color: ${(props) => (props.selected ? "#7626f3" : "#fff")};
-  color: ${(props) => (props.selected ? "#fff" : "#000")};
+  color: ${(props) => (props.selected ? "#fff" : "#888")};
   font-size: 13px;
   font-weight: 500;
 

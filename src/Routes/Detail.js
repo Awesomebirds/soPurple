@@ -34,39 +34,46 @@ const DetailContainer = styled.div`
 
 //제목
 const Title = styled.h1`
-  font-size: 23px;
+  font-size: 32px;
   font-weight: 600;
   letter-spacing: -1px;
-  margin-bottom: 8px;
+  margin-top: 8px;
+  margin-bottom: 11px;
 `;
 
 //재료
 const IngredientContainer = styled.div`
   margin-bottom: 1px;
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #777;
 `;
 
 const Ingredient = styled.span`
   margin: 0 2px;
-  font-size: 15px;
-  font-weight: 500;
-  color: #777;
   letter-spacing: -2px;
 `;
 
 //태그
-const TagContainer = styled.div`
-  margin-bottom: 20px;
-`;
+const TagContainer = styled.div``;
 
 const Tag = styled.span`
   color: #7626f3;
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: -1px;
   margin: 0 2px;
 `;
 
+const Price = styled.div`
+  font-size: 22px;
+`;
+
 //설명
 const Text = styled.p`
+  margin-bottom: 20px;
   width: 100%;
   line-height: 1.5;
   white-space: pre-line;
@@ -85,12 +92,13 @@ const StyledButton = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px;
+  width: 100%;
   height: 50px;
-  border: solid 2px #7626f3;
+  border: solid 1px #ccc;
+  color: #999;
   border-radius: 10px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: -1px;
 `;
 
@@ -155,16 +163,18 @@ const Detail = ({ isManager }) => {
     <Container>
       {image ? <Img image={image} /> : <Img />}
       <DetailContainer>
+        <TagContainer>
+          {data.tags && data.tags.map((tag) => <Tag key={tag}>#{tag}</Tag>)}
+        </TagContainer>
         <Title>{data.name}</Title>
+        <Price>{data.price} 원</Price>
         <IngredientContainer>
+          재료:{" "}
           {data.ingredients &&
             data.ingredients.map((ingredient) => (
               <Ingredient key={ingredient}>{ingredient}</Ingredient>
             ))}
         </IngredientContainer>
-        <TagContainer>
-          {data.tags && data.tags.map((tag) => <Tag key={tag}>#{tag}</Tag>)}
-        </TagContainer>
         <Text>{data.detail}</Text>
         {isManager && (
           <div>
@@ -174,7 +184,7 @@ const Detail = ({ isManager }) => {
         )}
       </DetailContainer>
       <ButtonContainer>
-        <StyledButton to="/cocktail">칵테일 전체보기 {`>`}</StyledButton>
+        <StyledButton to="/cocktail">뒤로 가기</StyledButton>
       </ButtonContainer>
     </Container>
   ) : (

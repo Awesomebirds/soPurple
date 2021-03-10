@@ -11,8 +11,8 @@ const Container = styled.div`
 
 //태그
 const TagContainer = styled.div`
-  margin-top: 40px;
-  margin-bottom: 20px;
+  margin-top: 16px;
+  margin-bottom: 4px;
   display: flex;
   flex-wrap: wrap;
   overflow-x: auto;
@@ -23,8 +23,8 @@ const TagButton = styled.span`
   padding-bottom: 2px;
   padding-left: 1px;
   padding-right: 1px;
-  border-bottom: ${(props) => (props.isSelected ? "2px solid" : "none")};
-  font-weight: ${(props) => (props.isSelected ? "700" : "500")};
+  font-weight: 700;
+  font-size: 18px;
   &:hover {
     cursor: pointer;
   }
@@ -63,38 +63,30 @@ const StyledButton = styled(Link)`
 `;
 
 const Home = ({ cocktails, tags }) => {
-  const [seletedTag, setSelectedTag] = useState("");
-
-  const onTagClick = (tag) => {
-    setSelectedTag(tag);
-  };
-  useEffect(() => {
-    tags && tags.length > 0 && setSelectedTag(tags[0].name);
-  }, [tags]);
-
   return (
     <>
       <Banner />
       <Container>
         <TagContainer>
-          {tags &&
-            tags.map(
-              (tag, index) =>
-                index < 3 && (
-                  <TagButton
-                    onClick={() => onTagClick(tag.name)}
-                    isSelected={tag.name === seletedTag}
-                  >
-                    #{tag.name}
-                  </TagButton>
-                )
-            )}
+          <TagButton>#클래식</TagButton>
         </TagContainer>
         <CocktailContainer>
           {cocktails &&
             cocktails.map(
               (cocktail) =>
-                cocktail.tags.includes(seletedTag) && (
+                cocktail.tags.includes("클래식") && (
+                  <Item key={cocktail.id} cocktail={cocktail} />
+                )
+            )}
+        </CocktailContainer>
+        <TagContainer>
+          <TagButton>#시그니처</TagButton>
+        </TagContainer>
+        <CocktailContainer>
+          {cocktails &&
+            cocktails.map(
+              (cocktail) =>
+                cocktail.tags.includes("시그니처") && (
                   <Item key={cocktail.id} cocktail={cocktail} />
                 )
             )}

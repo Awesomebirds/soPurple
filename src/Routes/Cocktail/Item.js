@@ -7,6 +7,7 @@ import styled from "styled-components";
 const ItemContainer = styled.span`
   width: 100%;
   min-width: 150px;
+  margin-bottom: 10px;
 `;
 
 const Img = styled.div`
@@ -32,8 +33,9 @@ const Detail = styled.span`
 
 const Name = styled.div`
   margin-top: 10px;
+  margin-bottom: 5px;
   letter-spacing: -1px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
 `;
 

@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-  margin-top: 60px;
-  padding: 20px;
-  background-color: #333;
-  color: white;
+  margin-top: 20px;
+  padding: 30px 20px;
+  background-color: #eee;
+  color: #999;
 `;
 
 const StyledP = styled.p`
