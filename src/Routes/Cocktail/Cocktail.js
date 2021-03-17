@@ -1,3 +1,4 @@
+import ScrollToTopOnMount from "Components/ScrollToTopOnMount";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -106,6 +107,7 @@ const Cocktail = ({ isManager, cocktails, spirits, tags, proofs }) => {
 
   return (
     <CocktailContaier>
+      <ScrollToTopOnMount />
       <TagContainer>
         <SelectContainer>
           <TagTitleContainer>
