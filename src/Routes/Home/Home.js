@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Item from "Routes/Cocktail/Item";
 import styled from "styled-components";

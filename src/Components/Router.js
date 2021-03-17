@@ -11,6 +11,7 @@ import NewCocktail from "Routes/Cocktail/NewCocktail";
 import Whisky from "Routes/Whisky";
 import Manage from "Routes/Manage";
 import Detail from "Routes/Detail";
+import Login from "Components/Login";
 
 const myRouter = ({ uid, isManager, cocktails, spirits, tags, proofs }) => {
   return (
@@ -19,6 +20,9 @@ const myRouter = ({ uid, isManager, cocktails, spirits, tags, proofs }) => {
       <Switch>
         <Route exact path="/">
           <Home cocktails={cocktails} tags={tags} />
+        </Route>
+        <Route exact path="/login">
+          <Login uid={uid} />
         </Route>
         <Route exact path="/cocktail">
           <Cocktail

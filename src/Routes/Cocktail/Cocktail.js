@@ -52,6 +52,7 @@ const Button = styled.div`
 const ItemContainer = styled.div`
   margin-top: 20px;
   width: 100%;
+  min-height: 1000px;
   display: grid;
   grid-gap: 16px;
   grid-template-columns: repeat(2, 1fr);

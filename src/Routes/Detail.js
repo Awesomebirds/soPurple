@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 //이미지
 const Container = styled.div`
+  min-height: 1000px;
   padding: 20px;
 `;
 
